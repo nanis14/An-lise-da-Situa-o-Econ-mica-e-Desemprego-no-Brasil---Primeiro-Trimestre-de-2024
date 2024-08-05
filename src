@@ -1,0 +1,54 @@
+import matplotlib.pyplot as plt
+import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
+
+# Dados fictícios para simulação
+trimestres = ['T1-2023', 'T2-2023', 'T3-2023', 'T4-2023', 'T1-2024']
+ocupados = [100.2, 98.3, 99.0, 101.5, 100.2]  # milhões
+desocupados = [8.6, 8.8, 9.2, 8.2, 8.6]  # milhões
+informais = [38.9, 39.2, 38.5, 38.8, 38.9]  # milhões
+
+# Convertendo trimestres para números sequenciais para plotagem correta
+x = np.arange(len(trimestres))
+
+fig = plt.figure(figsize=(14, 6))  # Ajustando o tamanho da figura
+
+# Subplot para o gráfico 3D
+ax3d = fig.add_subplot(121, projection='3d')
+
+# Plotagem dos dados em 3D
+ax3d.bar3d(x, ocupados, np.zeros(len(trimestres)), 0.5, 0.5, desocupados, color='b', label='Desocupados')
+ax3d.bar3d(x, ocupados, desocupados, 0.5, 0.5, informais, color='r', label='Informais')
+
+ax3d.set_title('Relação entre Ocupação, Desocupação e Informalidade')
+ax3d.set_xlabel('Trimestres')
+ax3d.set_ylabel('População (em milhões)')
+ax3d.set_zlabel('Número de Pessoas')
+ax3d.set_xticks(x)
+ax3d.set_xticklabels(trimestres)
+ax3d.legend()
+
+# Subplot para o gráfico de pizza
+ax_pie = fig.add_subplot(122)
+
+# Dados para o gráfico de pizza
+labels = ['Ocupados', 'Desocupados', 'Informais']
+sizes = [sum(ocupados), sum(desocupados), sum(informais)]
+colors = ['#66c2a5', '#fc8d62', '#8da0cb']  # Cores pastéis
+explode = (0.1, 0, 0)  # Explodir a primeira fatia (Ocupados)
+
+# Plotagem do gráfico de pizza
+ax_pie.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True, startangle=140)
+ax_pie.axis('equal')  # Assegura que o gráfico de pizza seja desenhado como um círculo
+
+plt.suptitle('Análise do Mercado de Trabalho no Brasil', fontsize=16, fontweight='bold')
+plt.show()
+
+# Descrição dos gráficos
+descricao = """
+\033[1mA figura apresenta uma análise integrada do mercado de trabalho no Brasil, utilizando dois gráficos distintos.
+À direita, um gráfico de pizza ilustra a distribuição percentual dos grupos de ocupados, desocupados e informais.
+As cores pastéis destacam cada categoria, com a fatia dos ocupados ligeiramente destacada para enfatizar sua proporção relativa.\033[0m
+"""
+
+print(descricao.strip())  # Removendo espaços extras da descrição
